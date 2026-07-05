@@ -62,7 +62,7 @@ pip install -r requirements.txt
 5. Run the program.
 
 ```bash
-python banking.py
+python-banking-project.py
 ```
 
 6. Enter your MySQL Host, Username, and Password when prompted.
