@@ -76,7 +76,7 @@ The program will automatically create the required database (`banking`) and tabl
 ```
 python-banking-system/
 │
-├── banking.py
+├── python-banking-project.py
 ├── README.md
 └── requirements.txt
 ```
