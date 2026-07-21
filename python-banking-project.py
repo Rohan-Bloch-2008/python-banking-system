@@ -19,6 +19,7 @@ if choice == 'y':
             print("Password cannot be empty. Try again.")
         print("Too many invalid attempts.")
         return None
+        
 
 # ============================
 # DATABASE INITIALIZER
@@ -343,3 +344,4 @@ else:
     print("Invalid Choice Entered")
 
     
+
