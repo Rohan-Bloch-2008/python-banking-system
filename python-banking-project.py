@@ -1,12 +1,12 @@
-import mysql.connector as mysql
-from mysql.connector import Error
-import random
 
 print("This program requires the MySQL Connector for Python to communicate with the SQL database. The program cannot run unless it is installed.")
 print("Please confirm whether the required connector is installed.")
 choice = input("Enter 'Y' if it is installed, or 'N' if it is not (Y/N): ").strip().lower()
 
 if choice == 'y':
+    import mysql.connector as mysql
+    from mysql.connector import Error
+    import random
 # ============================
 # PASSWORD CHECKER
 # ============================
@@ -219,19 +219,34 @@ Kindly enter your Recovery Key.
         if not verify_password(conn, acc_no):
             return
         cursor = conn.cursor()
-        amt = int(input("Enter amount to deposit: "))
-        if amt > 999999999 :
+        try:
+            amt = int(input("Enter amount to deposit: "))
+        except ValueError:
+            print("invalid")
+            return
+
+        if amt > 999999999:
             print("Cannot deposit more than $ 999999999.")
-        else :
+            return
+
+        cursor.execute("SELECT Balance FROM project WHERE Accountnumber=%s", (acc_no,))
+        balance = cursor.fetchone()[0]
+
+        if balance + amt > 999999999:
+            print("Cannot deposit more than $ 999999999.")
+        else:
             cursor.execute("UPDATE project SET Balance = Balance + %s WHERE Accountnumber=%s", (amt, acc_no))
             conn.commit()
-            print("Amount deposited successfully.\n")
-
+            print("Amount deposited successfully.\n")   
     def withdraw(conn, acc_no):
         if not verify_password(conn, acc_no):
             return
         cursor = conn.cursor()
-        amt = int(input("Enter amount to withdraw: "))
+        try:
+            amt = int(input("Enter amount to withdraw: "))
+        except ValueError:  
+            print("invalid")
+            return
         cursor.execute("SELECT Balance FROM project WHERE Accountnumber=%s", (acc_no,))
         balance = cursor.fetchone()[0]
         if amt > balance:
@@ -240,7 +255,6 @@ Kindly enter your Recovery Key.
             cursor.execute("UPDATE project SET Balance = Balance - %s WHERE Accountnumber=%s", (amt, acc_no))
             conn.commit()
             print("Withdrawal Successful.\n")
-
     def delete_account(conn, acc_no):
         if not verify_password(conn, acc_no):
             return False
