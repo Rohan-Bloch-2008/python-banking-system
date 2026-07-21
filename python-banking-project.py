@@ -176,6 +176,7 @@ Kindly enter your Recovery Key.
                             conn.commit()
 
                             print("Password Updated Successfully.\n")
+                            print("Please return to the main menu and login with your new password.\n")
                             return None
 
                         else:
